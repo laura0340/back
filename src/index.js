@@ -6,6 +6,7 @@ const cors = require('cors');
 require('./database'); //aca requerimos la conexion  a mongo
 //app.set('port', process.env.PORT || 4200);
 app.use(cors()); //para comunicar un servidor con otrso servidores
+app.use(express.urlencoded({extended:false}));
 app.use(express.json()); //para que convierta los objetos Json a otro en javaS qeu podemos manipular
 
 //importamos la ruta 

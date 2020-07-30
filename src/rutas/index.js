@@ -35,13 +35,13 @@ router.post('/ingresar', async(req, res) => {
 
     if (!user) return res.status(401).send('El correo no se encuentra, debe registrarse');
     if (user.contrasena !== contrasena) return res.status(401).send('La contraseña es incorrecta');
-    const token = jwt.sign({ _id: user._id }, 'clave');
-    const nombre = jwt.sign({ nombre: user.nombre }, 'clave');
-    const direccion = jwt.sign({ direccion: user.direccion }, 'clave');
-    const sexo = jwt.sign({ sexo: user.sexo }, 'clave');
-    res.send(nombre, direccion, sexo);
+    //const token = jwt.sign({ _id: user._id }, 'clave');
+    //const nombre = jwt.sign({ nombre: user.nombre }, 'clave');
+    //const direccion = jwt.sign({ direccion: user.direccion }, 'clave');
+    //const sexo = jwt.sign({ sexo: user.sexo }, 'clave');
+    //res.send(nombre, direccion, sexo);
 
-    return res.status(200).json({ token }); //devuelcvo el token a el cliente
+    return res.status(200).json({status:'ok'}); //devuelcvo el token a el cliente
 
     /*return res.json([{
         nombre,
@@ -52,11 +52,15 @@ router.post('/ingresar', async(req, res) => {
 });
 
 //rutas para devolver datos de forma privada
-router.get('/infoUsuario', verifyToken, async(req, res) => {
+router.get('/infoUsuario', async(req, res) => {
+
 
     const user = await User.find({}); //me los trae todos los de la BD
     console.log(user);
-    res.render('infoUsuario', { user });
+    //res.render('infoUsuario', { user });
+    return res.json(
+        user
+    )
 
     /*res.json([{
         nombre: 'nombre',
@@ -81,7 +85,8 @@ async function verifyToken(req, res, next) {
             return res.status(401).send('No está autorizado');
         }
         req.userId = payload._id; //guarda el id del usuraio
-        next();
+        console.log(req.userId);
+       // next();
     } catch (e) {
         console.log(e);
         return res.status(401).send('No está autorizado');
